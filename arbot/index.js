@@ -6,7 +6,7 @@ const apis = {
 		pos: 'https://www.binance.com/assetWithdraw/getAllAsset.html'
 	}
 }
-const configAtlas = {url: 'mongodb://Khuzha:<lolkek>@onetech-shard-00-00-g4hlr.mongodb.net:27017,onetech-shard-00-01-g4hlr.mongodb.net:27017,onetech-shard-00-02-g4hlr.mongodb.net:27017/test?ssl=true&replicaSet=onetech-shard-0&authSource=admin&retryWrites=true'};
+const configAtlas = {url: 'mongodb://Khuzha:lolkek@onetech-shard-00-00-g4hlr.mongodb.net:27017,onetech-shard-00-01-g4hlr.mongodb.net:27017,onetech-shard-00-02-g4hlr.mongodb.net:27017/test?ssl=true&replicaSet=onetech-shard-0&authSource=admin&retryWrites=true'};
 
 var getBinance = () => {
 	axios.get(apis.binance.prices)
