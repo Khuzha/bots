@@ -15,4 +15,6 @@ bot.sendMessage(messageChatId, 'Добро пожаловать, ну hello worl
   }
 });
 
+bot.onText(new RegExp)
+
 bot.startPolling();
