@@ -1,7 +1,9 @@
 const telegraf = require('telegraf')
 const mongo = require('mongodb').MongoClient
 const data = require('./data.js')
-const bot = new telegraf('619360663:AAFV0Vl6AjaFjAKBONj3zAFFErV0SaRlXHs')
+const dbUrl = 'mongodb://localhost:27017/'
+const bot = new telegraf('619360663:AAFBE_x2dPzx8dxqvo7EL_oMseXre2OIS4s')
+
 var clientID, chbr, chcat, chmod;
 
 var approp = (cid, cbr, ccat, cmod) => {
@@ -9,18 +11,17 @@ var approp = (cid, cbr, ccat, cmod) => {
 	chbr = cbr
 	chcat = ccat
 	chmod = cmod
-	dbstart()
+	dbAdd()
 }
 
-const dbUrl = 'mongodb://localhost:27017/'
-var dbstart = () => {
+var dbAdd = () => {
 mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 	const db = client.db('navi')
 	const collection = db.collection('lastAction')
 	var user = {id: clientID, brand: chbr, cat: chcat, model: chmod}
 	collection.insertOne(user, function(err, result){
 		if(err){
-			console.log('Ошибка добавления айди и последнего действия в коллекцию: [' + err + ']')
+			console.log('Ошибка добавления данных в коллекцию: [' + err + ']')
 		}
 		console.log(result.ops)
 		client.close
@@ -28,6 +29,23 @@ mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 })
 }
 
+var dbAsk = () => {
+mongo.connect(dbUrl, function(err, client){
+	const db = client.db('navi')
+	const collection = db.collection('lastAction')
+
+	if(err) {
+		return console.log('Ошибка в функции dbrec:' + err)
+	}
+
+	collection.fing().toArray(function(err, results){
+		console.log(results)
+		client.close
+	})
+})
+}
+
+dbPrint()
 
 bot.start((ctx) => {
 	(ctx.reply('Начали! Выберите бренд:', {reply_markup: {keyboard: data.brands, resize_keyboard: true}}))
@@ -46,7 +64,7 @@ bot.on('text', (ctx) => {
 		approp(ctx.message.from.id, 'Royal')
 		break
 		case 'Samsung': case 'samsung': ctx.reply('Выберите категорию устройства Samsung:', {reply_markup: {keyboard: data.categories.Samsung, resize_keyboard: true}})
-		approp(ctx.message.from.id, 'Samsung')
+		approp(ctx.message.from.id, 'Samsung', 'Холодильники', 'kek')
 		break
 		case 'Shivaki': case 'shivaki': ctx.reply('Выберите категорию устройства Shivaki:', {reply_markup: {keyboard: data.categories.Shivaki, resize_keyboard: true}})
 		approp(ctx.message.from.id, 'Shivaki')
@@ -55,7 +73,6 @@ bot.on('text', (ctx) => {
 		break
 	}
 })
-
 
 
 // bot.on('text', (ctx) => {
