@@ -17,13 +17,15 @@ var approp = (cid, act/*cbr, ccat, cmod*/) => {
 	dbAdd()
 }
 
+
+//ОШИБКА ВОТ ТУТ(текст консоли в самом низу):
 var dbAdd = () => {
 mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 	const db = client.db('navi')
 	const collection = db.collection('lastAction')
 	//var user = {id: clientID, brand: chbr, cat: chcat, model: chmod}
 	//var lastAction = {id: clientID, lAct: action}
-	db.users.update({id: clientID}, {lAct: action}, {upsert: true})
+	db.collection.update({id: clientID}, {lAct: action}, {upsert: true})
 	//collection.insertOne(lastAction, function(err, result){
 		if(err){
 			console.log('Ошибка добавления данных в коллекцию: [' + err + ']')
@@ -33,7 +35,6 @@ mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 		client.close
 	})
 }
-
 
 
 var dbAsk = () => {
@@ -99,3 +100,22 @@ bot.on('text', (ctx) => {
 
 
 bot.startPolling()
+
+
+
+/* Сама ошибка:
+
+/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/operations/mongo_client_ops.js:466
+      throw err;
+      ^
+
+TypeError: Cannot read property 'update' of undefined
+    at /home/oneuser/MyProjects/bots/artelbot/index.js:26:16
+    at result (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/utils.js:414:17)
+    at executeCallback (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/utils.js:406:9)
+    at err (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/operations/mongo_client_ops.js:286:5)
+    at connectCallback (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/operations/mongo_client_ops.js:241:5)
+    at process.nextTick (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/operations/mongo_client_ops.js:463:7)
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+*/
