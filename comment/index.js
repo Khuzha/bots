@@ -9,7 +9,7 @@ const bot = new telegraf(conf.token)
 
 let key = {
         inline_keyboard: [
-            [{text: 'Hello', callback_data: 'some'}],
+            [{text: '🇷🇺Сменить язык', callback_data: 'ru'}]
             //[{...}],
             //[{...}]
         ]
@@ -19,6 +19,8 @@ bot.start((ctx) => {
   ctx.reply('Let\'s create a message with comments. Send me the text message or a photo.\n\nAlso you can use native or /markdown formatting.', {reply_markup: {inline_keyboard: key}})
 })
 
-
+bot.action('ru', (ctx) => {
+  ctx.answerCbQuery()
+})
 
 bot.startPolling()
