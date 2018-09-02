@@ -4,14 +4,16 @@ const data = require('./data.js')
 const dbUrl = 'mongodb://localhost:27017/'
 const bot = new telegraf('619360663:AAFBE_x2dPzx8dxqvo7EL_oMseXre2OIS4s')
 
-var clientID, chbr, chcat, chmod;
+//var clientID, chbr, chcat, chmod, rcvdUserData;
+var clientID, action, rcvdUserData;
 var rcvdDB = {}
 
-var approp = (cid, cbr, ccat, cmod) => {
+var approp = (cid, act/*cbr, ccat, cmod*/) => {
 	clientID = cid
-	chbr = cbr
+	action = act
+	/*chbr = cbr
 	chcat = ccat
-	chmod = cmod
+	chmod = cmod*/
 	dbAdd()
 }
 
@@ -19,8 +21,10 @@ var dbAdd = () => {
 mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 	const db = client.db('navi')
 	const collection = db.collection('lastAction')
-	var user = {id: clientID, brand: chbr, cat: chcat, model: chmod}
-	collection.insertOne(user, function(err, result){
+	//var user = {id: clientID, brand: chbr, cat: chcat, model: chmod}
+	//var lastAction = {id: clientID, lAct: action}
+	db.users.update({id: clientID}, {lAct: action}, {upsert: true})
+	//collection.insertOne(lastAction, function(err, result){
 		if(err){
 			console.log('Ошибка добавления данных в коллекцию: [' + err + ']')
 		}
@@ -28,21 +32,23 @@ mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 		dbAsk()
 		client.close
 	})
-})
 }
 
 
+
 var dbAsk = () => {
-mongo.connect(dbUrl, function(err, client){
+mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 	const db = client.db('navi')
 	const collection = db.collection('lastAction')
 
 	if(err) {
-		return console.log('Ошибка в функции dbrec:' + err)
+		return console.log('Ошибка в функции dbAsk():' + err)
 	}
-
+	rcvdUserData = collection.find().toArray()
 	collection.find().toArray(function(err, results){
-		console.log(results)
+		//console.log(results)
+		rcvdDB = results
+		console.log(rcvdDB)
 		client.close
 	})
 })
@@ -56,7 +62,8 @@ bot.start((ctx) => {
 
 
 bot.on('text', (ctx) => {
-	console.log(JSON.stringify(ctx.message))
+	console.log(JSON.stringify(ctx.message) + '\n______________________________________________________________________')
+
 	//if(typeof(ctx.message.text) === 'string' && (ctx.message.text) !== '⬅️ Назад' && (ctx.message.text) !== 'Artel' && (ctx.message.text) !== 'Royal' && (ctx.message.text) !== 'Shivaki' && (ctx.message.text) !== 'Samsung')
 		//ctx.reply('Вы не выбрали бренд. Пожалуйста, нажмите одну из кнопок ниже:', {reply_markup: {keyboard: data.brands, resize_keyboard: true}})
 	switch (ctx.message.text) {
