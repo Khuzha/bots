@@ -4,7 +4,6 @@ const data = require('./data.js')
 const dbUrl = 'mongodb://localhost:27017/'
 const bot = new telegraf('619360663:AAFBE_x2dPzx8dxqvo7EL_oMseXre2OIS4s')
 
-//var clientID, chbr, chcat, chmod, rcvdUserData;
 var clientID, action, rcvdUserData;
 var rcvdDB = {}
 
