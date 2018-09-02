@@ -8,13 +8,12 @@ const bot = new telegraf('619360663:AAFBE_x2dPzx8dxqvo7EL_oMseXre2OIS4s')
 var clientID, action, rcvdUserData;
 var rcvdDB = {}
 
-var approp = (cid, act/*cbr, ccat, cmod*/) => {
+var approp = (cid, act) => {
 	clientID = cid
 	action = act
-	/*chbr = cbr
-	chcat = ccat
-	chmod = cmod*/
-	dbAdd()
+	console.log('CID:' + clientID + ' Action:' + action)
+	if(JSON.stringify(clientID).length > 0 && clientID != undefined && JSON.stringify(act).length >0 && act != undefined)
+		dbAdd()
 }
 
 
@@ -23,9 +22,8 @@ var dbAdd = () => {
 mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 	const db = client.db('navi')
 	const collection = db.collection('lastAction')
-	//var user = {id: clientID, brand: chbr, cat: chcat, model: chmod}
-	//var lastAction = {id: clientID, lAct: action}
-	db.collection.update({id: clientID}, {lAct: action}, {upsert: true})
+	var lastAction = {id: clientID, lAct: action}
+	db.lastAction.update({id: clientID}, {lAct: action}, {upsert: true})
 	//collection.insertOne(lastAction, function(err, result){
 		if(err){
 			console.log('Ошибка добавления данных в коллекцию: [' + err + ']')
@@ -49,7 +47,7 @@ mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 	collection.find().toArray(function(err, results){
 		//console.log(results)
 		rcvdDB = results
-		console.log(rcvdDB)
+		//console.log(rcvdDB)
 		client.close
 	})
 })
@@ -84,20 +82,6 @@ bot.on('text', (ctx) => {
 		break
 	}
 })
-
-
-// bot.on('text', (ctx) => {
-// 	switch(ctx.message.text) {
-// 		case 'Кондиционеры': ctx.reply('Выберите модель кондиционера:', {reply_markup: {keyboard: data.models.Artel.Кондиционеры, resize_keyboard: true}})
-// 		break
-// 		case 'Пылесоы': ctx.reply('Выберите модель пылесоса:', {reply_markup: {keyboard: data.models.Artel.Пылесоы, resize_keyboard: true}})
-// 		break
-// 		case 'Холодильники': ctx.reply('Выберите модель холодильника:', {reply_markup: {keyboard: data.models.Artel.Холодильники, resize_keyboard: true}})
-// 		break
-// 		case 'Микроволновки': ctx.reply('Выберите модель микроволновки:', {reply_markup: {keyboard: data.models.Artel.Микроволновки, resize_keyboard: true}})
-// 		break
-// 	}
-
 
 bot.startPolling()
 
