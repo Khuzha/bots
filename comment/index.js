@@ -1,20 +1,24 @@
 const telegraf = require('telegraf')
-const mongodb = require('mongodb').MongoClient;
-const conf = require('./config');
-const langs = require('./langs');
+const mongo = require('mongodb').MongoClient
+const conf = require('./config')
+const bot = new telegraf(conf.token)
+/*var key = telegraf.Extra.markdown().markup((m) => m.inlineKeyboard([
+  m.callbackButton('Coke', 'Coke'),
+  m.callbackButton('Pepsi', 'Pepsi')
+]))*/
 
-const bot = new telegraf(conf.token);
-let langCode;
+let key = {
+        inline_keyboard: [
+            [{text: 'Hello', callback_data: 'some'}],
+            //[{...}],
+            //[{...}]
+        ]
+    }
 
 bot.start((ctx) => {
-	let lc = ctx.from.language_code.toLowerCase();
-	langCode = lc;
-	console.log(langCode);
-	return (langCode.search('ru') >= 0) ? ctx.reply(langs.ru.first) : ctx.reply(langs.en.first);
-	console.log(langCode.search('ru'));
-});
+  ctx.reply('Let\'s create a message with comments. Send me the text message or a photo.\n\nAlso you can use native or /markdown formatting.', {reply_markup: {inline_keyboard: key}})
+})
 
-bot.command('markdown', (ctx) => {
-	return (langCode.search('ru') >= 0) ? ctx.reply(langs.ru.mark, telegraf.Extra.HTML()) : ctx.reply(langs.en.mark, telegraf.Extra.HTML());
-});
-bot.startPolling();
+
+
+bot.startPolling()

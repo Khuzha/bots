@@ -71,7 +71,7 @@ bot.on('text', (ctx) => {
 		approp(ctx.message.from.id, 'Royal')
 		break
 		case 'Samsung': case 'samsung': ctx.reply('Выберите категорию устройства Samsung:', {reply_markup: {keyboard: data.categories.Samsung, resize_keyboard: true}})
-		approp(ctx.message.from.id, 'Samsung', 'Холодильники', 'kek')
+		approp(ctxИ снова ошибка. result.ops.message.from.id, 'Samsung', 'Холодильники', 'kek')
 		break
 		case 'Shivaki': case 'shivaki': ctx.reply('Выберите категорию устройства Shivaki:', {reply_markup: {keyboard: data.categories.Shivaki, resize_keyboard: true}})
 		approp(ctx.message.from.id, 'Shivaki')
