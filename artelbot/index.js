@@ -29,6 +29,8 @@ mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 })
 }
 
+
+//Вот в этой функции и выходит та самая ошибка (написал ее в самом низу):
 var dbAsk = () => {
 mongo.connect(dbUrl, function(err, client){
 	const db = client.db('navi')
@@ -89,3 +91,25 @@ bot.on('text', (ctx) => {
 
 
 bot.startPolling()
+
+
+/*Ошибка:
+
+oneuser@OnePC:~/MyProjects/bots/artelbot$ node index.js 
+(node:7572) DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
+/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/operations/mongo_client_ops.js:466
+      throw err;
+      ^
+
+TypeError: collection.fing is not a function
+    at /home/oneuser/MyProjects/bots/artelbot/index.js:41:13
+    at result (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/utils.js:414:17)
+    at executeCallback (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/utils.js:406:9)
+    at err (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/operations/mongo_client_ops.js:286:5)
+    at connectCallback (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/operations/mongo_client_ops.js:241:5)
+    at process.nextTick (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/operations/mongo_client_ops.js:463:7)
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+
+
+*/
