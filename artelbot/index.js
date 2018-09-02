@@ -5,6 +5,7 @@ const dbUrl = 'mongodb://localhost:27017/'
 const bot = new telegraf('619360663:AAFBE_x2dPzx8dxqvo7EL_oMseXre2OIS4s')
 
 var clientID, chbr, chcat, chmod;
+var rcvdDB = {}
 
 var approp = (cid, cbr, ccat, cmod) => {
 	clientID = cid
@@ -24,6 +25,7 @@ mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 			console.log('Ошибка добавления данных в коллекцию: [' + err + ']')
 		}
 		console.log(result.ops)
+		dbAsk()
 		client.close
 	})
 })
@@ -46,7 +48,7 @@ mongo.connect(dbUrl, function(err, client){
 })
 }
 
-dbPrint()
+dbAsk()
 
 bot.start((ctx) => {
 	(ctx.reply('Начали! Выберите бренд:', {reply_markup: {keyboard: data.brands, resize_keyboard: true}}))
