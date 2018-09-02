@@ -22,8 +22,7 @@ mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 	const db = client.db('navi')
 	const collection = db.collection('lastAction')
 	var lastAction = {id: clientID, lAct: action}
-	db.lastAction.update({id: clientID}, {lAct: action}, {upsert: true})
-	//collection.insertOne(lastAction, function(err, result){
+	collection.updateOne({id: clientID}, {lAct: action}, {upsert: true}, function(err, result){
 		if(err){
 			console.log('Ошибка добавления данных в коллекцию: [' + err + ']')
 		}
@@ -31,8 +30,8 @@ mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 		dbAsk()
 		client.close
 	})
+})
 }
-
 
 var dbAsk = () => {
 mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
