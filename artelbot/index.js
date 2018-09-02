@@ -16,7 +16,6 @@ var approp = (cid, act) => {
 }
 
 
-//ОШИБКА ВОТ ТУТ(текст консоли в самом низу):
 var dbAdd = () => {
 mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 	const db = client.db('navi')
@@ -26,6 +25,7 @@ mongo.connect(dbUrl, {useNewUrlParser: true}, function(err, client){
 		if(err){
 			console.log('Ошибка добавления данных в коллекцию: [' + err + ']')
 		}
+		//ОШИБКА ТУТ (описана внизу):
 		console.log(result.ops)
 		dbAsk()
 		client.close
@@ -91,8 +91,10 @@ bot.startPolling()
       throw err;
       ^
 
-TypeError: Cannot read property 'update' of undefined
-    at /home/oneuser/MyProjects/bots/artelbot/index.js:26:16
+TypeError: Cannot read property 'ops' of undefined
+    at /home/oneuser/MyProjects/bots/artelbot/index.js:29:22
+    at Collection.updateOne (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/collection.js:721:48)
+    at /home/oneuser/MyProjects/bots/artelbot/index.js:25:13
     at result (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/utils.js:414:17)
     at executeCallback (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/utils.js:406:9)
     at err (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/operations/mongo_client_ops.js:286:5)
@@ -100,4 +102,6 @@ TypeError: Cannot read property 'update' of undefined
     at process.nextTick (/home/oneuser/MyProjects/bots/artelbot/node_modules/mongodb/lib/operations/mongo_client_ops.js:463:7)
     at _combinedTickCallback (internal/process/next_tick.js:131:7)
     at process._tickCallback (internal/process/next_tick.js:180:9)
+
+
 */
