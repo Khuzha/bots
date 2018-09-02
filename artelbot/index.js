@@ -38,7 +38,7 @@ mongo.connect(dbUrl, function(err, client){
 		return console.log('Ошибка в функции dbrec:' + err)
 	}
 
-	collection.fing().toArray(function(err, results){
+	collection.find().toArray(function(err, results){
 		console.log(results)
 		client.close
 	})
