@@ -21,7 +21,10 @@ bot.start((ctx) => {
         .then((docs) => {
             if(docs.length > 0) return db.collection('actions').updateOne({id: clientID}, {$set: {lastAction: ctx.message.text}})
         })
-  console.log(db.collection('actions'))
+  db.collection('actions').find().toArray(function(err, results){
+    if(err) console.log('Ошибка получения данных из ДБ: ' + err)
+    else console.log(results)
+  })
 })
 
 
