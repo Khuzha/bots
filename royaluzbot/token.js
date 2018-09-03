@@ -1,3 +1,3 @@
 module.exports = {
-  token: '686808562:AAHkSPQnB9PswcVepwsUeYBf5F2UPN_SI94'
+  token: '686808562:AAEV1a7vwppGcq4JOxUky9kbVtMfYMcbbEY'
 }
