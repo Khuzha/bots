@@ -18,9 +18,9 @@ bot.start((ctx) => {
 	ctx.reply('Начали! Выберите категорию водонагревателей:', {reply_markup: {keyboard: data.categories, resize_keyboard: true}})
   clientID = ctx.from.id
   db.collection('actions').find({id: clientID}).toArray()
-      .then((userInfo) => {
-          console.log('Из ДБ: ' + userInfo);
-      })
+        .then((docs) => {
+            if(docs.length > 0) return db.collection('actions').updateOne({id: id}, {$set: {lang: ctx.message.text}})
+        })
   console.log(db.collection('actions'))
 })
 
