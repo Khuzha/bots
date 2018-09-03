@@ -1,4 +1,4 @@
-//Проект переехал сюда:
+//Проект переехал сюда: https://github.com/Khuzha/bots/tree/master/royaluzbot
 const telegraf = require('telegraf')
 const mongo = require('mongodb').MongoClient
 const data = require('./data')
