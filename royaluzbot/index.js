@@ -19,7 +19,7 @@ bot.start((ctx) => {
   clientID = ctx.from.id
   db.collection('actions').find({id: clientID}).toArray()
         .then((docs) => {
-            if(docs.length > 0) return db.collection('actions').updateOne({id: id}, {$set: {lang: ctx.message.text}})
+            if(docs.length > 0) return db.collection('actions').updateOne({id: clientID}, {$set: {lastAction: ctx.message.text}})
         })
   console.log(db.collection('actions'))
 })
