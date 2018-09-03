@@ -1,3 +1,4 @@
+//Проект переехал сюда:
 const telegraf = require('telegraf')
 const mongo = require('mongodb').MongoClient
 const data = require('./data')
@@ -8,11 +9,12 @@ var rcvdUserData, rcvdDB, db
 
 mongo.connect('mongodb://localhost:27017', {useNewUrlParser: true}, (err, client) => {
     if(err) throw err
-    db = client.db('one')
+    const db = client.db('royal')
+		const collection = db.collection('')
 })
 
 bot.on('text', (ctx) => {
-    let id = ctx.chat.id
+    let id = ctx.from.id
     db.collection('list').find({id: id}).toArray()
         .then((docs) => {
             console.log(docs);
@@ -34,6 +36,7 @@ bot.on('text', (ctx) => {
 		//ctx.reply('Вы не выбрали бренд. Пожалуйста, нажмите одну из кнопок ниже:', {reply_markup: {keyboard: data.brands, resize_keyboard: true}})
 	switch (ctx.message.text) {
 		case 'Artel': case 'artel': ctx.reply('Выберите категорию устройства Artel:', {reply_markup: {keyboard: data.categories.Artel, resize_keyboard: true}})
+		db.collection('')
 		break
 		case 'Royal': case 'royal': ctx.reply('Выберите категорию устройства Royal:', {reply_markup: {keyboard: data.categories.Royal, resize_keyboard: true}})
 		break
