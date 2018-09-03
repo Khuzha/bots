@@ -2,7 +2,7 @@ const telegraf = require('telegraf')
 const mongo = require('mongodb').MongoClient
 const data = require('./data.js')
 const dbUrl = 'mongodb://localhost:27017/'
-const bot = new telegraf('619360663:AAExUoNV_1XuffVf7SWVS_0GkxSnXrFeRK0')
+const bot = new telegraf('619360663:AAG77yeLT3RMRp5B8ra9TR41dh7Lp-Cb_zs')
 
 var clientID, action, rcvdUserData;
 var rcvdDB = {}
