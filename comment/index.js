@@ -16,11 +16,13 @@ let key = {
     }
 
 bot.start((ctx) => {
-  ctx.reply('Let\'s create a message with comments. Send me the text message or a photo.\n\nAlso you can use native or /markdown formatting.', {reply_markup: {inline_keyboard: key}})
+  ctx.reply('Let\'s create a message with comments. Send me the text message or a photo.\n\nAlso you can use native or /markdown formatting.', {reply_markup: key})
 })
 
 bot.action('ru', (ctx) => {
-  ctx.answerCbQuery()
+  ctx.answerCbQuery('Язык изменен')
+  ctx.editMessageReplyMarkup()
+
 })
 
 bot.startPolling()
