@@ -40,11 +40,17 @@ bot.on('text', (ctx) => {
       break
     case 'Электрические ВН':
       ctx.reply('Выберите тип электрических ВН:', {reply_markup: {keyboard: data.types.electric, resize_keyboard: true}})
-      db.collection('actions').updateOne({id: clientID}, {$set: {lastAction: 'Электрические ВН'}})
+      db.collection('actions').updateOne({id: clientID}, {$set: {lastAction: 'Электрические ВН'}}, function(err, results){
+        if(err) console.log('Ошибка при добавлении данных электрических ВН в БД' + err)
+        return results
+      })
       break
     case 'Газовые котлы':
       ctx.reply('Выберите тип газовых котлов:', {reply_markup: {keyboard: data.types.gas, resize_keyboard: true}})
-      db.collection('actions').updateOne({id: clientID}, {$set: {lastAction: 'Газовые котлы'}})
+      db.collection('actions').updateOne({id: clientID}, {$set: {lastAction: 'Газовые котлы'}}, function(err, results){
+        if(err) console.log('Ошибка при добавлении данных газовых котлов в БД' + err)
+        return results
+      })
       break
   }
 	}
