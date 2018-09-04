@@ -33,7 +33,10 @@ bot.on('text', (ctx) => {
   switch (ctx.message.text) {
     case 'Солнечные ВН':
       ctx.reply('Выберите тип солнечных ВН:', {reply_markup: {keyboard: data.types.solar, resize_keyboard: true}})
-      db.collection('actions').updateOne({id: clientID}, {$set: {lastAction: 'Солнечные ВН'}})
+      db.collection('actions').updateOne({id: clientID}, {$set: {lastAction: 'Солнечные ВН'}}, function(err, results){
+        if(err) console.log('Ошибка при добавлении данных солнечных ВН в БД' + err)
+        return results
+      })
       break
     case 'Электрические ВН':
       ctx.reply('Выберите тип электрических ВН:', {reply_markup: {keyboard: data.types.electric, resize_keyboard: true}})
