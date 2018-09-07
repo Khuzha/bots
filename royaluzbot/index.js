@@ -1,59 +1,56 @@
 const telegraf = require('telegraf')
-const mongo = require('mongodb').MongoClient
-const data = require('./data')
 const token = require('./token')
-const dbUrl = 'mongodb://localhost:27017/'
+const data = require('./data')
 const bot = new telegraf(token.token)
-var rcvdUserData, rcvdDB, clientID, db, collection
 
-mongo.connect('mongodb://localhost:27017', {useNewUrlParser: true}, (err, client) => {
-    if(err) console.log('Ошибка при подключении к ДБ: \n' + err)
-    db = client.db('royal')
-		collection = db.collection('actions')
-})
-
-//console.log('DB: \n' + rcvdDB + '\n\n__________________________________________________ \n User: \n' +rcvdUserData)
+bot.context.categ = {}
 
 bot.start((ctx) => {
-	ctx.reply('Начали! Выберите категорию водонагревателей:', {reply_markup: {keyboard: data.categories, resize_keyboard: true}})
-  clientID = ctx.from.id
-  db.collection('actions').find({id: clientID}).toArray()
-        .then((docs) => {
-            if(docs.length > 0) return db.collection('actions').updateOne({id: clientID}, {$set: {lastAction: ctx.message.text}})
-        })
-  db.collection('actions').find().toArray(function(err, results){
-    if(err) console.log('Ошибка получения данных из ДБ: ' + err)
-    else console.log(results)
-  })
+  ctx.reply('Начали! Выберите категорию:', {reply_markup: {keyboard: data.categories, resize_keyboard: true}})
+  ctx.categ[ctx.from.id] = 'start'
+})
+
+bot.on('text', (ctx) => {
+  ctx.categ[ctx.from.id] = ctx.message.text
+  console.log(ctx.categ)
+
+  switch(ctx.categ[ctx.from.id]) {
+    case 'Солнечные ВН':
+    ctx.reply('Выберите тип солнечных водонагревателей:', {reply_markup: {keyboard: data.types.solar, resize_keyboard: true}})
+    break
+    case 'Электрические ВН':
+    ctx.reply('Выберите тип электрических водонагревателей', {reply_markup: {keyboard: data.types.electric, resize_keyboard: true}})
+    break
+    case 'Газовые котлы':
+    ctx.reply('Выберите тип газовых котлов:', {reply_markup: {keyboard: data.types.gas, resize_keyboard: true}})
+    break
+    case 'Бойлеры':
+    ctx.reply('Файл Вы можете скачать ниже. Для онлайн просмотра нажмите [сюда](https://drive.google.com/open?id=1AwfiRZFINU36kiomrLUG5E8EUmC7uzi9)', {parse_mode: 'markdown'})
+    break
+    case '⬅️ Назад':
+    ctx.reply('Вернулись назад. Выберите категорию:', {reply_markup: {keyboard: data.categories, resize_keyboard: true}})
+    ctx.categ[ctx.from.id] = 'start'
+    break
+    case 'Коллекторы':
+    ctx.reply('Файл Вы можете скачать ниже. Для онлайн просмотра нажмите [сюда](https://drive.google.com/open?id=1hY-H1GxF1vSU-HFq3nImhfxzSMx7kEPu)', {parse_mode: 'markdown'})
+    break
+    case 'Kiturami':
+    ctx.reply('Файл Вы можете скачать ниже. Для онлайн просмотра нажмите [сюда](https://drive.google.com/open?id=1Oo770v3E87VR6u977_WVZtI0uiBNqLKw)', {parse_mode: 'markdown'})
+    break
+    case 'Baykan':
+    ctx.reply('Файл Вы можете скачать ниже. Для онлайн просмотра нажмите [сюда](https://drive.google.com/open?id=1H70gE16kVBJOtTv50dsECMN7xm4gz76s)', {parse_mode: 'markdown'})
+    break
+    case 'Классик':
+    ctx.reply('Файл Вы можете скачать ниже. Для онлайн просмотра нажмите [сюда](https://drive.google.com/open?id=1AwfiRZFINU36kiomrLUG5E8EUmC7uzi9)', {parse_mode: 'markdown'})
+    break
+    case 'Премиум':
+    ctx.reply('Файл Вы можете скачать ниже. Для онлайн просмотра нажмите [сюда](https://drive.google.com/open?id=1AwfiRZFINU36kiomrLUG5E8EUmC7uzi9)', {parse_mode: 'markdown'})
+    break
+  }
 })
 
 
-bot.on('text', (ctx) => {
-	console.log(JSON.stringify(ctx.message) + '\n----------------------------------------------------------')
-  switch (ctx.message.text) {
-    case 'Солнечные ВН':
-      ctx.reply('Выберите тип солнечных ВН:', {reply_markup: {keyboard: data.types.solar, resize_keyboard: true}})
-      db.collection('actions').updateOne({id: clientID}, {$set: {lastAction: 'Солнечные ВН'}}, function(err, results){
-        if(err) console.log('Ошибка при добавлении данных солнечных ВН в БД' + err)
-        return results
-      })
-      break
-    case 'Электрические ВН':
-      ctx.reply('Выберите тип электрических ВН:', {reply_markup: {keyboard: data.types.electric, resize_keyboard: true}})
-      db.collection('actions').updateOne({id: clientID}, {$set: {lastAction: 'Электрические ВН'}}, function(err, results){
-        if(err) console.log('Ошибка при добавлении данных электрических ВН в БД' + err)
-        return results
-      })
-      break
-    case 'Газовые котлы':
-      ctx.reply('Выберите тип газовых котлов:', {reply_markup: {keyboard: data.types.gas, resize_keyboard: true}})
-      db.collection('actions').updateOne({id: clientID}, {$set: {lastAction: 'Газовые котлы'}}, function(err, results){
-        if(err) console.log('Ошибка при добавлении данных газовых котлов в БД' + err)
-        return results
-      })
-      break
-  }
-	}
-) //Помни, Сардор, перед этой скобкой была фигурная скобка, но ты не знал, к чему она и удалил
+
+
 
 bot.startPolling()
