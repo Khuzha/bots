@@ -1,7 +1,7 @@
 const telegraf = require('telegraf')
 const token = require('./token')
 const data = require('./data')
-const bb = require('./bb')
+//const bb = require('./bb')
 const bot = new telegraf(token.token)
 
 bot.context.categ = {}
@@ -54,4 +54,4 @@ bot.on('text', (ctx) => {
 
 
 
-bot.startPolling()
+bot.startWebhook('/9010', null, 9010)
