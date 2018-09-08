@@ -56,4 +56,4 @@ bot.on('text', (ctx) => {
 
 
 
-bot.startWebhook('/9010', null, 9010)
+bot.startPolling()
