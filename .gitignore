@@ -28,4 +28,4 @@ build/Release
 node_modules
 
 #Убираю токен с публичного доступа
-token.js
+data.js
