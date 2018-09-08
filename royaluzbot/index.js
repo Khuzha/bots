@@ -1,3 +1,5 @@
+//NOW BOT IS HERE: https://github.com/Khuzha/RoyaluzBot
+
 const telegraf = require('telegraf')
 const token = require('./token')
 const data = require('./data')
