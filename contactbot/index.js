@@ -1,7 +1,6 @@
 const telegraf = require('telegraf')
 const data = require('./data')
 const bot = new telegraf(data.token)
-var mesID, userID
 
 bot.start((ctx) => {
   if (ctx.chat.id == data.myid){
@@ -16,14 +15,9 @@ getRandomInt = (min, max) => {
 }
 
 bot.on('text', (ctx) => {
-
-  userID = ctx.from.id
-  console.log(ctx.update)
-  //console.log(ctx.update.message.reply_to_message.message_id)
-  console.log(ctx.update.message.reply_to_message.from.id)
-  if (userID == data.myid){
-    if(ctx.update.message.message_id != null && ctx.update.message.message_id != undefined){
-
+  if (ctx.from.id == data.myid){
+    if(ctx.update.message && ctx.update.message.reply_to_message) {
+      ctx.sendMessage(ctx.update.message.reply_to_message.from.id, ctx.message)
     } else {
       let num = getRandomInt(0, data.ansme.length)
       ctx.reply(data.ansme[num])
@@ -31,7 +25,6 @@ bot.on('text', (ctx) => {
   } else {
     ctx.forwardMessage(data.myid, ctx.from.id, ctx.message.id)
   }
-
 })
 
 bot.startPolling()
