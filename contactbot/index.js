@@ -15,9 +15,9 @@ getRandomInt = (min, max) => {
 }
 
 bot.on('text', (ctx) => {
-  if (ctx.from.id == data.myid){
+  if (ctx.chat.id == data.myid){
     if(ctx.update.message && ctx.update.message.reply_to_message) {
-      ctx.sendMessage(ctx.update.message.reply_to_message.from.id, ctx.message)
+      ctx.telegram.sendMessage(ctx.message.reply_to_message.forward_from.id, ctx.message.text)
     } else {
       let num = getRandomInt(0, data.ansme.length)
       ctx.reply(data.ansme[num])
