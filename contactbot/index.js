@@ -4,16 +4,34 @@ const bot = new telegraf(data.token)
 var mesID, userID
 
 bot.start((ctx) => {
-  ctx.reply(hello, {reply_markup: {inline_keyboard: [[{text: '🇬🇧 Change lang', callback_data: 'en'}]]}})
-  userID = ctx.from.id
+  if (ctx.chat.id == data.myid){
+    ctx.reply(data.startMessageToMe)
+  } else {
+  ctx.reply(data.hello, {reply_markup: {inline_keyboard: [[{text: '🇬🇧 Change lang', callback_data: 'en'}]]}})
+  }
 })
 
-//bot.action()
+getRandomInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
 bot.on('text', (ctx) => {
-  ctx.forwardMessage(data.myid, ctx.from.id, ctx.message.id)
-})
 
-var hello = 'Здравствуйте! Я — бот-ассистент Сардора, которому Вы собираетесь написать. Оставьте свое сообщение и он свяжется с Вами, как только сможет.'
+  userID = ctx.from.id
+  console.log(ctx.update)
+  //console.log(ctx.update.message.reply_to_message.message_id)
+  console.log(ctx.update.message.reply_to_message.from.id)
+  if (userID == data.myid){
+    if(ctx.update.message.message_id != null && ctx.update.message.message_id != undefined){
+
+    } else {
+      let num = getRandomInt(0, data.ansme.length)
+      ctx.reply(data.ansme[num])
+    }
+  } else {
+    ctx.forwardMessage(data.myid, ctx.from.id, ctx.message.id)
+  }
+
+})
 
 bot.startPolling()
