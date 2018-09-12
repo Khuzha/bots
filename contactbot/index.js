@@ -18,10 +18,10 @@ bot.on('text', (ctx) => {
      } else {
        ctx.reply(data.emptyReciever)
      }
-
 } else {
   ctx.forwardMessage(data.myid, ctx.from.id, ctx.message.id)
 }
+
 })
 
 bot.startPolling()
