@@ -1,3 +1,5 @@
+// NOW PROJECT IS HERE: https://github.com/Khuzha/contactbot
+
 const telegraf = require('telegraf')
 const data = require('./data')
 const bot = new telegraf(data.token)
