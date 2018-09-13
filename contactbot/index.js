@@ -13,12 +13,12 @@ bot.start((ctx) => {
 bot.on('text', (ctx) => {
   if (ctx.chat.id == data.myid){
     if(ctx.update.message && ctx.update.message.reply_to_message && ctx.message.reply_to_message.forward_from) {
-
-      if(!ctx.message.reply_to_message.forward_from.is_bot){
-      data.lastID = ctx.message.reply_to_message.forward_from.id//уже понял, что бесполезная строка, но пытался воплотить именно так..
-      ctx.telegram.sendMessage(data.lastID, ctx.message.text)
-    }
-    } else {
+      if (ctx.message.reply_to_message && ctx.message.reply_to_message.forward_from) {
+                if(!ctx.message.reply_to_message.forward_from.is_bot){
+                    data.lastID = ctx.message.reply_to_message.forward_from.id;
+                    ctx.telegram.sendMessage(data.lastID, ctx.message.text);
+                }
+            } else {
       ctx.reply(data.emptyReciever)
     }
   } else {
