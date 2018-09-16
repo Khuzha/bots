@@ -19,7 +19,4 @@ bot.on('text', (ctx) => {
   }
 })
 
-bot.catch((err) => {
-  console.log(err)
-})
 bot.startPolling()
