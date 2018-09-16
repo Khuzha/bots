@@ -21,7 +21,7 @@ bot.on('text', (ctx) => {
     break
     case '🍔Сэндвичи': ctx.reply(data.answers.sandwiches, {reply_markup: {keyboard: data.keys.sandwiches, resize_keyboard: true}})
     break
-    case 'Ай-Твистер Чиз': ctx.replyWithPhoto(data.other['Ай-Твистер Чиз'].url, {caption: data.other['Ай-Твистер Чиз'].caption, parse_mode: 'markdown'}, {reply_markup: {inline_keyboard: data.inlineKeys.twister}})
+    case 'Ай-Твистер Чиз': ctx.replyWithPhoto(data.other['Ай-Твистер Чиз'].url, {caption: data.other['Ай-Твистер Чиз'].caption, parse_mode: 'markdown', reply_markup: {inline_keyboard: data.inlineKeys['Ай-Твистер Чиз']}})
   }
 })
 
